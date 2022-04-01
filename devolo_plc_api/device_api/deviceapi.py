@@ -75,7 +75,7 @@ class DeviceApi(Protobuf):
         query = await self._async_post("LedSettingsSet", content=led_setting.SerializeToString())
         response = devolo_idl_proto_deviceapi_ledsettings_pb2.LedSettingsSetResponse()
         response.FromString(await query.aread())  # pylint: disable=no-member
-        return bool(not response.result)  # pylint: disable=no-member
+        return not response.result
 
     @_feature("update")
     async def async_check_firmware_available(self) -> dict:
@@ -102,7 +102,7 @@ class DeviceApi(Protobuf):
         update_firmware = devolo_idl_proto_deviceapi_updatefirmware_pb2.UpdateFirmwareStart()
         response = await self._async_get("UpdateFirmwareStart")
         update_firmware.FromString(await response.aread())  # pylint: disable=no-member
-        return bool(not update_firmware.result)  # pylint: disable=no-member
+        return not update_firmware.result
 
     @_feature("wifi1")
     async def async_get_wifi_connected_station(self) -> dict:
@@ -146,7 +146,7 @@ class DeviceApi(Protobuf):
         query = await self._async_post("WifiGuestAccessSet", content=wifi_guest_proto.SerializeToString())
         response = devolo_idl_proto_deviceapi_wifinetwork_pb2.WifiGuestAccessSetResponse()
         response.FromString(await query.aread())  # pylint: disable=no-member
-        return bool(not response.result)  # pylint: disable=no-member
+        return not response.result
 
     @_feature("wifi1")
     async def async_get_wifi_neighbor_access_points(self) -> dict:
@@ -187,4 +187,4 @@ class DeviceApi(Protobuf):
         wps_proto = devolo_idl_proto_deviceapi_wifinetwork_pb2.WifiWpsPbcStart()
         response = await self._async_get("WifiWpsPbcStart")
         wps_proto.FromString(await response.aread())  # pylint: disable=no-member
-        return bool(not wps_proto.result)  # pylint: disable=no-member
+        return not wps_proto.result

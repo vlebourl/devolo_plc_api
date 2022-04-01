@@ -54,7 +54,7 @@ class PlcNetApi(Protobuf):
         query = await self._async_post("IdentifyDeviceStart", content=identify_device.SerializeToString())
         response = devolo_idl_proto_plcnetapi_identifydevice_pb2.IdentifyDeviceResponse()
         response.FromString(await query.aread())  # pylint: disable=no-member
-        return bool(not response.result)  # pylint: disable=no-member
+        return not response.result
 
     async def async_identify_device_stop(self) -> bool:
         """
@@ -68,7 +68,7 @@ class PlcNetApi(Protobuf):
         query = await self._async_post("IdentifyDeviceStop", content=identify_device.SerializeToString())
         response = devolo_idl_proto_plcnetapi_identifydevice_pb2.IdentifyDeviceResponse()
         response.FromString(await query.aread())  # pylint: disable=no-member
-        return bool(not response.result)  # pylint: disable=no-member
+        return not response.result
 
     async def async_set_user_device_name(self, name) -> bool:
         """
@@ -84,4 +84,4 @@ class PlcNetApi(Protobuf):
         query = await self._async_post("SetUserDeviceName", content=set_user_name.SerializeToString(), timeout=10.0)
         response = devolo_idl_proto_plcnetapi_setuserdevicename_pb2.SetUserDeviceNameResponse()
         response.FromString(await query.aread())  # pylint: disable=no-member
-        return bool(not response.result)  # pylint: disable=no-member
+        return not response.result
